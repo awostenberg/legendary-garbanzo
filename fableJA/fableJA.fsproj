@@ -7,6 +7,10 @@
   <ItemGroup>
     <None Include="paket.references" />
     <Compile Include="Program.fs" />
+    <None Include="index.html" />
+    <None Include="webpack.config.js" />
+    <None Include="main.css" />
+    <Content Include="assets\myFile.txt" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

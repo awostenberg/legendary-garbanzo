@@ -2,19 +2,14 @@
 
 Simple CAGR calculation on Github Pages
 
-## Building locally
+## Generate static site
 
 *where `build` is `./build.sh` on macOS, and `.\build.cmd` on Windows*
 
 ```bash
 dotnet tool restore
 dotnet paket restore
-build -t Build
-```
-
-## Generate static site
-
-```bash
+yarn install
 build -t GenerateSite ./gh-pages
 # TODO: git magic here to commit contents of ./gh-pages folder to gh-pages branch
 cp .git gh-pages/.git

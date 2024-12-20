@@ -23,6 +23,13 @@ open Fake.IO.FileSystemOperators
 open Fake.IO.Globbing.Operators
 open Fake.Tools
 
+
+type Shell =
+    static member ExecFromPath (cmd, ?args, ?dir) =
+        match ProcessUtils.tryFindFileOnPath cmd with
+        | Some resolvedCmd -> Shell.Exec (resolvedCmd, ?args = args, ?dir = dir)
+        | None -> failwithf "Command '%s' not found" cmd
+
 module Projects =
     let fableJADir = "fableJA"
     let fableJA = Path.Combine (fableJADir, "fableJA.fsproj")
@@ -32,7 +39,6 @@ module Projects =
     let private testProjPath name = Path.Combine ("tests", name, name + ".fsproj")
     
     // TODO: add a unit test project!
-
 
 let defaultSiteOutputDir = "gh-pages"
 
@@ -56,17 +62,11 @@ let GenerateSite (args: TargetParameter) =
     
     let indexHtmlPath = Path.Combine (outputDir, "index.html")
     
-    Directory.CreateDirectory outputDir
-    File.WriteAllText (indexHtmlPath, "<!DOCTYPE html>
-<html>
-    <head>
-    </head>
-    <body>
-        Hello, world!
-    </body>
-</html>
-")
-    //Projects.fableJA |> DotNet.build id |> ignore
+    Directory.CreateDirectory outputDir |> ignore
+    
+    Shell.cd Projects.fableJADir
+    DotNet.exec id (sprintf "fable . --run webpack --env output=%s" (Path.Combine ("..", outputDir))) "" |> ignore
+    
 
 let RunSite _ =
     Trace.log " --- Running static site locally --- "

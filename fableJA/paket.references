@@ -1,1 +1,9 @@
 FSharp.Core
+Fable.Core
+Fable.Elmish
+Fable.Elmish.Browser
+Fable.Elmish.Debugger
+Fable.Elmish.React
+Fable.React
+Fable.Elmish.HMR
+Fable.Browser.Dom

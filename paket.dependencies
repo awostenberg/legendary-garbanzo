@@ -2,6 +2,13 @@ source https://api.nuget.org/v3/index.json
 framework: auto-detect
 
 nuget FSharp.Core
+nuget Fable.Core ~> 4.0
+nuget Fable.Elmish ~> 4.0
+nuget Fable.Elmish.Browser
+nuget Fable.Elmish.HMR
+nuget Fable.Elmish.Debugger
+nuget Fable.Elmish.React
+nuget Fable.React ~> 9.4
 
 group Build
     source https://api.nuget.org/v3/index.json
