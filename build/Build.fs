@@ -34,19 +34,44 @@ module Projects =
     // TODO: add a unit test project!
 
 
+let defaultSiteOutputDir = "gh-pages"
+
 let Clean _ =
     Trace.log " --- Cleaning --- "
     Projects.sln |> DotNet.exec id "clean" |> ignore
+    Shell.cleanDir defaultSiteOutputDir
 
 let Restore _ =
     Trace.log " --- Restoring --- "
     Projects.sln |> DotNet.restore id |> ignore
 
-let Build args =
+let Build _ =
     Trace.log " --- Build --- "
     Projects.fableJA |> DotNet.build id |> ignore
 
-let Test args =
+let GenerateSite (args: TargetParameter) =
+    Trace.log " --- Generate static site --- "
+    let outputDir = args.Context.Arguments |> List.tryHead |> Option.defaultValue defaultSiteOutputDir
+    Trace.logf "Output dir: %s" outputDir
+    
+    let indexHtmlPath = Path.Combine (outputDir, "index.html")
+    
+    Directory.CreateDirectory outputDir
+    File.WriteAllText (indexHtmlPath, "<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        Hello, world!
+    </body>
+</html>
+")
+    //Projects.fableJA |> DotNet.build id |> ignore
+
+let RunSite _ =
+    Trace.log " --- Running static site locally --- "
+
+let Test _ =
     Trace.log " --- Running tests --- "
 
 open Fake.Core.TargetOperators
@@ -58,6 +83,8 @@ let initTargets () =
     Target.create "Clean" Clean
     Target.create "Restore" Restore
     Target.create "Build" Build
+    Target.create "GenerateSite" GenerateSite
+    Target.create "RunSite" RunSite
     Target.create "Test" Test
 
     // We have to restore twice, because something about the Fable build messes up the restore for future builds, at

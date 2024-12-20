@@ -426,3 +426,7 @@ codecov/
 packages/
 
 tmp/
+
+
+# Static site artifacts
+gh-pages/
