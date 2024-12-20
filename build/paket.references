@@ -1,1 +1,10 @@
-FSharp.Core
+group Build
+    FSharp.Core
+    Fake.Core.Target
+    Fake.DotNet.Cli
+    Fake.DotNet.MSBuild
+    Fake.DotNet.Paket
+    Fake.Tools.Git
+    MSBuild.StructuredLogger
+    Microsoft.Build
+    Microsoft.Build.Framework
